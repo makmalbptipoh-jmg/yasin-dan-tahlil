@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>Yasin dan Tahlil - Yasin</title>
+
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700&display=swap" rel="stylesheet"/>
+
+  <script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "primary": "#064c39",
+            "background-light": "#f6f8f7",
+            "background-dark": "#10221d",
+          },
+          fontFamily: {
+            "display": ["Inter", "sans-serif"],
+            "arab": ["Amiri", "serif"]
+          },
+          borderRadius: {
+            "DEFAULT": "0.5rem",
+            "lg": "1rem",
+            "xl": "1.5rem",
+            "full": "9999px"
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    .material-symbols-outlined{
+      font-variation-settings: 'FILL' 0, 'wght' 420, 'GRAD' 0, 'opsz' 24;
+    }
+    .active-icon{ font-variation-settings: 'FILL' 1, 'wght' 520, 'GRAD' 0, 'opsz' 24; }
+    body{ min-height: max(884px, 100dvh); }
+
+    #ayahList::-webkit-scrollbar { display: none; }
+    #ayahList { scrollbar-width: none; }
+    .no-select { -webkit-user-select: none; user-select: none; }
+  </style>
+</head>
+
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 min-h-screen">
+  <header class="px-6 pt-8 pb-4 bg-white dark:bg-background-dark/50 sticky top-0 z-40 border-b border-slate-100 dark:border-slate-800">
+    <div class="flex items-center justify-between gap-3">
+      <div class="flex items-center gap-3">
+        <a href="index.html" class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
+          <span class="material-symbols-outlined text-primary">arrow_back</span>
+        </a>
+        <div>
+          <h1 class="text-xl font-bold text-primary tracking-tight">Surah Yasin</h1>
+          <p id="metaLine" class="text-xs text-slate-500 dark:text-slate-400">Surah 36</p>
+        </div>
+      </div>
+
+      <button id="openSettings" class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
+        <span class="material-symbols-outlined text-primary">tune</span>
+      </button>
+    </div>
+
+    <div class="mt-4 flex items-center justify-between gap-3">
+      <label class="flex items-center gap-2 text-sm bg-slate-100 dark:bg-slate-800 px-3 py-2 rounded-full">
+        <input id="toggleMs" type="checkbox" class="rounded"/>
+        Terjemahan
+      </label>
+
+      <div class="flex items-center gap-2">
+        <button id="btnMinus" class="w-10 h-10 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center" title="Kecilkan">
+          <span class="material-symbols-outlined">remove</span>
+        </button>
+        <button id="btnPlus" class="w-10 h-10 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center" title="Besarkan">
+          <span class="material-symbols-outlined">add</span>
+        </button>
+
+        <div class="w-px h-8 bg-slate-200 dark:bg-slate-700 mx-1"></div>
+
+        <button id="prevAyah" class="w-10 h-10 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center" title="Sebelum">
+          <span class="material-symbols-outlined">chevron_left</span>
+        </button>
+        <button id="nextAyah" class="w-10 h-10 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center" title="Seterusnya">
+          <span class="material-symbols-outlined">chevron_right</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="px-6 py-6 pb-28">
+    <div class="bg-white dark:bg-slate-800 rounded-xl p-5 shadow-sm border border-slate-100 dark:border-slate-700">
+      <div class="font-arab text-center no-select" dir="rtl" style="font-size:34px; line-height:2;">
+        بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ
+      </div>
+    </div>
+
+    <div id="status" class="mt-4 text-sm text-slate-500 dark:text-slate-400">Loading data...</div>
+
+    <div id="ayahList"
+         class="mt-4 flex gap-4 overflow-x-auto snap-x snap-mandatory pb-4"
+         style="-webkit-overflow-scrolling: touch;">
+    </div>
+  </main>
+
+  <nav class="fixed bottom-0 left-0 right-0 bg-white dark:bg-slate-900 border-t border-slate-100 dark:border-slate-800 px-2 pb-6 pt-2 z-50">
+    <div class="flex justify-between items-center max-w-lg mx-auto">
+      <a class="flex flex-col items-center gap-1 flex-1 text-slate-400" href="index.html">
+        <span class="material-symbols-outlined">home</span>
+        <span class="text-[10px] font-medium">Utama</span>
+      </a>
+      <a class="flex flex-col items-center gap-1 flex-1 text-primary" href="yasin.html">
+        <span class="material-symbols-outlined active-icon">auto_stories</span>
+        <span class="text-[10px] font-semibold">Yasin</span>
+      </a>
+      <a class="flex flex-col items-center gap-1 flex-1 text-slate-400" href="tahlil.html">
+        <span class="material-symbols-outlined">format_list_numbered</span>
+        <span class="text-[10px] font-medium">Tahlil</span>
+      </a>
+      <a class="flex flex-col items-center gap-1 flex-1 text-slate-400" href="bookmark.html">
+        <span class="material-symbols-outlined">bookmark</span>
+        <span class="text-[10px] font-medium">Bookmark</span>
+      </a>
+      <a class="flex flex-col items-center gap-1 flex-1 text-slate-400" href="settings.html">
+        <span class="material-symbols-outlined">settings</span>
+        <span class="text-[10px] font-medium">Tetapan</span>
+      </a>
+    </div>
+  </nav>
+
+  <div id="sheet" class="fixed inset-0 z-50 hidden">
+    <div id="sheetBg" class="absolute inset-0 bg-black/40"></div>
+    <div class="absolute left-0 right-0 bottom-0 bg-white dark:bg-slate-900 rounded-t-2xl p-5 border-t border-slate-100 dark:border-slate-800">
+      <div class="flex items-center justify-between">
+        <div class="font-semibold">Paparan</div>
+        <button id="closeSettings" class="w-10 h-10 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center">
+          <span class="material-symbols-outlined">close</span>
+        </button>
+      </div>
+
+      <div class="mt-4 space-y-3 text-sm">
+        <div class="flex items-center justify-between bg-slate-50 dark:bg-slate-800 rounded-xl p-3">
+          <div>
+            <div class="font-medium">Tema gelap</div>
+            <div class="text-xs text-slate-500 dark:text-slate-400">On atau off</div>
+          </div>
+          <button id="toggleDark" class="px-3 py-2 rounded-full bg-primary text-white text-xs font-semibold">Toggle</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const LS_SHOW_MS = "yt_show_ms";
+    const LS_AR_SIZE = "yt_ar_size";
+    const LS_LAST_READ = "yt_last_read";
+    const LS_BOOKMARKS = "yt_bookmarks";
+    const LS_DARK = "yt_dark";
+
+    const SURAH_AYAH_COUNT = 83;
+
+    let state = { showMs: true, arSize: 30 };
+
+    function applyDarkMode() {
+      const isDark = localStorage.getItem(LS_DARK) === "1";
+      document.documentElement.classList.toggle("dark", isDark);
+    }
+
+    function saveLastRead(ayah) {
+      localStorage.setItem(LS_LAST_READ, JSON.stringify({ type: "yasin", ayah }));
+    }
+
+    function getBookmarks() {
+      try {
+        const raw = localStorage.getItem(LS_BOOKMARKS);
+        const arr = raw ? JSON.parse(raw) : [];
+        return Array.isArray(arr) ? arr : [];
+      } catch (e) {
+        return [];
+      }
+    }
+
+    function setBookmarks(arr) {
+      localStorage.setItem(LS_BOOKMARKS, JSON.stringify(arr));
+    }
+
+    function toggleBookmark(ayah) {
+      const arr = getBookmarks();
+      const key = "yasin:" + ayah;
+      const i = arr.indexOf(key);
+      if (i >= 0) arr.splice(i, 1);
+      else arr.push(key);
+      setBookmarks(arr);
+      return arr.includes(key);
+    }
+
+    function isBookmarked(ayah) {
+      return getBookmarks().includes("yasin:" + ayah);
+    }
+
+    function setShowMs(v) {
+      state.showMs = v;
+      localStorage.setItem(LS_SHOW_MS, v ? "1" : "0");
+      document.querySelectorAll("[data-ms]").forEach(el => el.style.display = v ? "" : "none");
+    }
+
+    function setArabSize(px) {
+      const next = Math.max(22, Math.min(46, px));
+      state.arSize = next;
+      localStorage.setItem(LS_AR_SIZE, String(next));
+      document.querySelectorAll("[data-ar]").forEach(el => {
+        el.style.fontSize = next + "px";
+        el.style.lineHeight = "1.9";
+      });
+    }
+
+    function scrollToAyah(n) {
+      const el = document.getElementById("ayah-" + n);
+      if (!el) return;
+      el.scrollIntoView({ behavior: "smooth", inline: "start", block: "nearest" });
+      el.classList.add("ring-2", "ring-primary/30");
+      setTimeout(() => el.classList.remove("ring-2", "ring-primary/30"), 600);
+    }
+
+    function getQueryAyah() {
+      const p = new URLSearchParams(location.search);
+      const n = Number(p.get("ayah"));
+      return Number.isFinite(n) ? n : null;
+    }
+
+    function getCurrentAyahFromScroll() {
+      const list = document.getElementById("ayahList");
+      const cards = Array.from(list.querySelectorAll("[id^='ayah-']"));
+      if (!cards.length) return 1;
+
+      const rect = list.getBoundingClientRect();
+      const centerX = rect.left + rect.width / 2;
+
+      let best = cards[0];
+      let bestDist = Infinity;
+
+      for (const c of cards) {
+        const r = c.getBoundingClientRect();
+        const cx = r.left + r.width / 2;
+        const d = Math.abs(cx - centerX);
+        if (d < bestDist) {
+          bestDist = d;
+          best = c;
+        }
+      }
+
+      const n = Number(best.id.replace("ayah-", ""));
+      return Number.isFinite(n) ? n : 1;
+    }
+
+    function stripBasmalah(arText) {
+      let t = String(arText || "").trim();
+      if (!t) return t;
+
+      const stripDiacritics = (s) =>
+        s.replace(/[\u0610-\u061A\u064B-\u065F\u06D6-\u06ED]/g, "");
+
+      const raw = t;
+      const plain = stripDiacritics(t);
+      const bas = "بسم الله الرحمن الرحيم";
+
+      if (plain.startsWith(bas)) {
+        const idx = raw.indexOf("الرَّحِيمِ");
+        if (idx >= 0 && idx < 250) return raw.slice(idx + "الرَّحِيمِ".length).trim() || raw;
+
+        const idx2 = raw.indexOf("الرَّحِيم");
+        if (idx2 >= 0 && idx2 < 250) return raw.slice(idx2 + "الرَّحِيم".length).trim() || raw;
+
+        const idx3 = raw.indexOf("الرحيم");
+        if (idx3 >= 0 && idx3 < 250) return raw.slice(idx3 + "الرحيم".length).trim() || raw;
+
+        return plain.slice(bas.length).trim() || raw;
+      }
+
+      if ((plain.includes("بسم") || plain.includes("بسم الله")) && plain.indexOf("الرحيم") >= 0 && plain.indexOf("الرحيم") < 250) {
+        const idx = raw.indexOf("الرَّحِيمِ");
+        if (idx >= 0 && idx < 250) return raw.slice(idx + "الرَّحِيمِ".length).trim() || raw;
+
+        const idx2 = raw.indexOf("الرَّحِيم");
+        if (idx2 >= 0 && idx2 < 250) return raw.slice(idx2 + "الرَّحِيم".length).trim() || raw;
+
+        const idx3 = raw.indexOf("الرحيم");
+        if (idx3 >= 0 && idx3 < 250) return raw.slice(idx3 + "الرحيم".length).trim() || raw;
+      }
+
+      return raw;
+    }
+
+    async function loadYasin() {
+      const status = document.getElementById("status");
+      const list = document.getElementById("ayahList");
+
+      try {
+        const r = await fetch("data/yasin.json", { cache: "no-store" });
+        if (!r.ok) throw new Error("Fail data/yasin.json tak jumpa");
+        const j = await r.json();
+
+        document.getElementById("metaLine").textContent = "Surah " + (j && j.meta && j.meta.surah ? j.meta.surah : 36);
+        list.innerHTML = "";
+        status.textContent = "";
+
+        for (const a of j.ayahs) {
+          const ayah = Number(a.aya);
+          const card = document.createElement("div");
+          card.id = "ayah-" + ayah;
+
+          card.className =
+            "snap-start shrink-0 w-[92vw] max-w-[560px] bg-white dark:bg-slate-800 rounded-xl p-4 shadow-sm border border-slate-100 dark:border-slate-700";
+
+          const bookmarked = isBookmarked(ayah);
+
+          card.innerHTML = `
+            <div class="flex items-start justify-between gap-3">
+              <div class="flex items-center gap-2">
+                <button data-bm="${ayah}" class="px-3 py-2 rounded-full text-xs font-semibold ${bookmarked ? "bg-primary text-white" : "bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-100"}">
+                  ${bookmarked ? "Disimpan" : "Simpan"}
+                </button>
+                <button data-last="${ayah}" class="text-xs text-primary font-semibold">Tanda bacaan</button>
+              </div>
+
+              <div class="shrink-0 w-12 h-12 rounded-xl bg-slate-100 dark:bg-slate-700 flex items-center justify-center">
+                <span class="font-semibold text-slate-700 dark:text-slate-100">${ayah}</span>
+              </div>
+            </div>
+
+            <div class="mt-5 text-right font-arab no-select" dir="rtl">
+              <div data-ar></div>
+            </div>
+
+            <div data-ms class="mt-4 text-sm text-slate-600 dark:text-slate-300"></div>
+          `;
+
+          const arab = (ayah === 1) ? stripBasmalah(a.ar) : (a.ar || "");
+          card.querySelector("[data-ar]").textContent = arab;
+          card.querySelector("[data-ms]").textContent = a.ms || "";
+
+          card.querySelector("[data-bm]").addEventListener("click", (ev) => {
+            const n = Number(ev.currentTarget.getAttribute("data-bm"));
+            const on = toggleBookmark(n);
+            ev.currentTarget.textContent = on ? "Disimpan" : "Simpan";
+            ev.currentTarget.className = on
+              ? "px-3 py-2 rounded-full text-xs font-semibold bg-primary text-white"
+              : "px-3 py-2 rounded-full text-xs font-semibold bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-100";
+          });
+
+          card.querySelector("[data-last]").addEventListener("click", (ev) => {
+            saveLastRead(ayah);
+            const btn = ev.currentTarget;
+            btn.textContent = "Ditanda";
+            setTimeout(() => btn.textContent = "Tanda bacaan", 900);
+          });
+
+          list.appendChild(card);
+        }
+
+        state.showMs = localStorage.getItem(LS_SHOW_MS) !== "0";
+        state.arSize = Number(localStorage.getItem(LS_AR_SIZE)) || 30;
+
+        const toggle = document.getElementById("toggleMs");
+        toggle.checked = state.showMs;
+        setShowMs(state.showMs);
+        setArabSize(state.arSize);
+
+        const qAyah = getQueryAyah();
+        if (qAyah) {
+          setTimeout(() => scrollToAyah(qAyah), 250);
+        } else {
+          try {
+            const raw = localStorage.getItem(LS_LAST_READ);
+            const d = raw ? JSON.parse(raw) : null;
+            if (d && d.type === "yasin" && d.ayah) {
+              setTimeout(() => scrollToAyah(Number(d.ayah)), 250);
+            }
+          } catch (e) {}
+        }
+      } catch (e) {
+        status.textContent = "Gagal load data. Pastikan data/yasin.json wujud.";
+      }
+    }
+
+    function wireControls() {
+      document.getElementById("toggleMs").addEventListener("change", (e) => setShowMs(e.target.checked));
+      document.getElementById("btnMinus").addEventListener("click", () => setArabSize(state.arSize - 2));
+      document.getElementById("btnPlus").addEventListener("click", () => setArabSize(state.arSize + 2));
+
+      document.getElementById("prevAyah").addEventListener("click", () => {
+        const cur = getCurrentAyahFromScroll();
+        scrollToAyah(Math.max(1, cur - 1));
+      });
+
+      document.getElementById("nextAyah").addEventListener("click", () => {
+        const cur = getCurrentAyahFromScroll();
+        scrollToAyah(Math.min(SURAH_AYAH_COUNT, cur + 1));
+      });
+
+      const sheet = document.getElementById("sheet");
+      const sheetBg = document.getElementById("sheetBg");
+      const open = () => sheet.classList.remove("hidden");
+      const close = () => sheet.classList.add("hidden");
+
+      document.getElementById("openSettings").addEventListener("click", open);
+      document.getElementById("closeSettings").addEventListener("click", close);
+      sheetBg.addEventListener("click", close);
+
+      document.getElementById("toggleDark").addEventListener("click", () => {
+        const isDark = localStorage.getItem(LS_DARK) === "1";
+        localStorage.setItem(LS_DARK, isDark ? "0" : "1");
+        applyDarkMode();
+      });
+    }
+
+    applyDarkMode();
+    wireControls();
+    loadYasin();
+  </script>
+</body>
+</html>

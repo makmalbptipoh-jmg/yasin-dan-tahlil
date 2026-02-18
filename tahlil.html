@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>Yasin dan Tahlil - Tahlil</title>
+
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@400;700&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700&display=swap" rel="stylesheet"/>
+
+  <script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "primary": "#064c39",
+            "background-light": "#f6f8f7",
+            "background-dark": "#10221d"
+          },
+          fontFamily: {
+            "display": ["Inter", "sans-serif"],
+            "arabic": ["Noto Sans Arabic", "serif"]
+          },
+          borderRadius: {
+            "DEFAULT": "0.5rem",
+            "lg": "1rem",
+            "xl": "1.5rem",
+            "full": "9999px"
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    body { min-height: max(884px, 100dvh); }
+    .material-symbols-outlined{ font-variation-settings: 'FILL' 0, 'wght' 420, 'GRAD' 0, 'opsz' 24; }
+    .active-icon{ font-variation-settings: 'FILL' 1, 'wght' 520, 'GRAD' 0, 'opsz' 24; }
+    .no-select { -webkit-user-select: none; user-select: none; }
+  </style>
+</head>
+
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 min-h-screen flex flex-col">
+  <header class="sticky top-0 z-40 bg-white dark:bg-background-dark/50 border-b border-slate-100 dark:border-slate-800 px-4 py-3">
+    <div class="flex items-center justify-between gap-3">
+      <a href="index.html" class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
+        <span class="material-symbols-outlined text-primary">arrow_back</span>
+      </a>
+
+      <div class="text-center">
+        <div class="text-lg font-bold text-primary tracking-tight">Tahlil</div>
+        <div id="stepLine" class="text-xs text-slate-500 dark:text-slate-400">Langkah 1 dari 12</div>
+      </div>
+
+      <button id="openSettings" class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
+        <span class="material-symbols-outlined text-primary">tune</span>
+      </button>
+    </div>
+
+    <div class="mt-3">
+      <div class="h-2 w-full bg-primary/10 rounded-full overflow-hidden">
+        <div id="progressBar" class="h-full bg-primary rounded-full transition-all duration-300" style="width: 0%;"></div>
+      </div>
+    </div>
+
+    <div class="mt-3 flex items-center justify-between gap-2">
+      <label class="flex items-center gap-2 text-sm bg-slate-100 dark:bg-slate-800 px-3 py-2 rounded-full">
+        <input id="toggleMs" type="checkbox" class="rounded"/>
+        Terjemahan
+      </label>
+
+      <div class="flex items-center gap-2">
+        <button id="btnMinus" class="w-10 h-10 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center" title="Kecilkan">
+          <span class="material-symbols-outlined">remove</span>
+        </button>
+        <button id="btnPlus" class="w-10 h-10 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center" title="Besarkan">
+          <span class="material-symbols-outlined">add</span>
+        </button>
+
+        <div class="w-px h-8 bg-slate-200 dark:bg-slate-700 mx-1"></div>
+
+        <button id="prevBtnTop" class="w-10 h-10 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center" title="Sebelum">
+          <span class="material-symbols-outlined">chevron_left</span>
+        </button>
+        <button id="nextBtnTop" class="w-10 h-10 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center" title="Seterusnya">
+          <span class="material-symbols-outlined">chevron_right</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="flex-1 overflow-y-auto px-4 py-6 pb-28 space-y-4">
+    <div id="status" class="text-sm text-slate-500 dark:text-slate-400">Loading data...</div>
+
+    <div id="card"
+         class="bg-white dark:bg-slate-900 rounded-xl shadow-lg border border-slate-100 dark:border-slate-800 p-6 relative overflow-hidden">
+      <div class="absolute -top-12 -right-12 w-32 h-32 bg-primary/5 rounded-full blur-3xl"></div>
+
+      <div class="flex items-start justify-between gap-3">
+        <div>
+          <div class="text-xs font-semibold uppercase tracking-wider text-primary/60">Tahlil Ringkas</div>
+          <h2 id="title" class="mt-1 text-xl font-bold text-primary">-</h2>
+          <div id="countLine" class="mt-1 text-xs text-slate-500 dark:text-slate-400"></div>
+        </div>
+
+        <button id="copyBtn" class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center" title="Copy">
+          <span class="material-symbols-outlined text-primary">content_copy</span>
+        </button>
+      </div>
+
+      <div class="mt-6 py-4 text-center">
+        <p id="arab"
+           class="font-arabic text-primary no-select"
+           dir="rtl"
+           style="font-size: 40px; line-height: 2; font-weight: 700;">
+        </p>
+      </div>
+
+      <div class="mt-4 space-y-4 pt-4 border-t border-slate-100 dark:border-slate-800">
+        <div>
+          <div class="text-[10px] font-bold uppercase tracking-widest text-primary/40">Rumi</div>
+          <p id="rumi" class="text-primary italic font-medium leading-relaxed"></p>
+        </div>
+
+        <div id="msWrap" class="bg-background-light dark:bg-background-dark/60 p-4 rounded-lg">
+          <div class="text-[10px] font-bold uppercase tracking-widest text-primary/40">Terjemahan</div>
+          <p id="ms" class="text-sm text-slate-700 dark:text-slate-200 leading-normal mt-1"></p>
+        </div>
+
+        <div class="text-xs text-slate-500 dark:text-slate-400">
+          Swipe kiri kanan untuk tukar langkah.
+        </div>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-2 gap-4">
+      <button id="prevBtn"
+              class="flex items-center justify-center gap-2 py-4 px-6 bg-white dark:bg-slate-900 text-primary border border-primary/20 rounded-xl font-bold hover:bg-primary/5 transition-colors shadow-sm">
+        <span class="material-symbols-outlined text-lg">chevron_left</span>
+        <span>Kembali</span>
+      </button>
+
+      <button id="nextBtn"
+              class="flex items-center justify-center gap-2 py-4 px-6 bg-primary text-white rounded-xl font-bold hover:bg-primary/90 transition-colors shadow-md">
+        <span>Seterusnya</span>
+        <span class="material-symbols-outlined text-lg">chevron_right</span>
+      </button>
+    </div>
+  </main>
+
+  <nav class="fixed bottom-0 left-0 right-0 bg-white dark:bg-slate-900 border-t border-slate-100 dark:border-slate-800 px-2 pb-6 pt-2 z-50">
+    <div class="flex justify-between items-center max-w-lg mx-auto">
+      <a class="flex flex-col items-center gap-1 flex-1 text-slate-400" href="index.html">
+        <span class="material-symbols-outlined">home</span>
+        <span class="text-[10px] font-medium">Utama</span>
+      </a>
+
+      <a class="flex flex-col items-center gap-1 flex-1 text-slate-400" href="yasin.html">
+        <span class="material-symbols-outlined">auto_stories</span>
+        <span class="text-[10px] font-medium">Yasin</span>
+      </a>
+
+      <a class="flex flex-col items-center gap-1 flex-1 text-primary" href="tahlil.html">
+        <span class="material-symbols-outlined active-icon">mosque</span>
+        <span class="text-[10px] font-semibold">Tahlil</span>
+      </a>
+
+      <a class="flex flex-col items-center gap-1 flex-1 text-slate-400" href="bookmark.html">
+        <span class="material-symbols-outlined">bookmark</span>
+        <span class="text-[10px] font-medium">Bookmark</span>
+      </a>
+
+      <a class="flex flex-col items-center gap-1 flex-1 text-slate-400" href="settings.html">
+        <span class="material-symbols-outlined">settings</span>
+        <span class="text-[10px] font-medium">Tetapan</span>
+      </a>
+    </div>
+  </nav>
+
+  <div id="sheet" class="fixed inset-0 z-50 hidden">
+    <div id="sheetBg" class="absolute inset-0 bg-black/40"></div>
+
+    <div class="absolute left-0 right-0 bottom-0 bg-white dark:bg-slate-900 rounded-t-2xl p-5 border-t border-slate-100 dark:border-slate-800">
+      <div class="flex items-center justify-between">
+        <div class="font-semibold">Paparan</div>
+        <button id="closeSettings" class="w-10 h-10 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center">
+          <span class="material-symbols-outlined">close</span>
+        </button>
+      </div>
+
+      <div class="mt-4 space-y-3 text-sm">
+        <div class="flex items-center justify-between bg-slate-50 dark:bg-slate-800 rounded-xl p-3">
+          <div>
+            <div class="font-medium">Tema gelap</div>
+            <div class="text-xs text-slate-500 dark:text-slate-400">On atau off</div>
+          </div>
+          <button id="toggleDark" class="px-3 py-2 rounded-full bg-primary text-white text-xs font-semibold">Toggle</button>
+        </div>
+
+        <div class="flex items-center justify-between bg-slate-50 dark:bg-slate-800 rounded-xl p-3">
+          <div>
+            <div class="font-medium">Mode kumpulan</div>
+            <div class="text-xs text-slate-500 dark:text-slate-400">Teks lebih besar dan kontras tinggi</div>
+          </div>
+          <label class="relative inline-flex items-center cursor-pointer">
+            <input id="toggleGroup" class="sr-only peer" type="checkbox" value=""/>
+            <div class="w-11 h-6 bg-primary/20 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+          </label>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const LS_DARK = "yt_dark";
+    const LS_TAHLIL_STEP = "yt_tahlil_step";
+    const LS_TAHLIL_SHOW_MS = "yt_tahlil_show_ms";
+    const LS_TAHLIL_AR_SIZE = "yt_tahlil_ar_size";
+    const LS_TAHLIL_GROUP = "yt_tahlil_group";
+    const LS_LAST_READ = "yt_last_read";
+
+    let data = null;
+    let idx = 0;
+
+    let state = {
+      showMs: true,
+      arSize: 40,
+      group: false
+    };
+
+    function applyDarkMode() {
+      const isDark = localStorage.getItem(LS_DARK) === "1";
+      document.documentElement.classList.toggle("dark", isDark);
+    }
+
+    function saveLastRead() {
+      localStorage.setItem(LS_LAST_READ, JSON.stringify({ type: "tahlil", step: idx + 1 }));
+    }
+
+    function clamp(n, a, b) {
+      return Math.max(a, Math.min(b, n));
+    }
+
+    function setShowMs(v) {
+      state.showMs = v;
+      localStorage.setItem(LS_TAHLIL_SHOW_MS, v ? "1" : "0");
+      document.getElementById("msWrap").style.display = v ? "" : "none";
+    }
+
+    function setArabSize(px) {
+      const next = clamp(px, 26, 64);
+      state.arSize = next;
+      localStorage.setItem(LS_TAHLIL_AR_SIZE, String(next));
+      const el = document.getElementById("arab");
+      el.style.fontSize = next + "px";
+      el.style.lineHeight = "2";
+    }
+
+    function setGroupMode(on) {
+      state.group = on;
+      localStorage.setItem(LS_TAHLIL_GROUP, on ? "1" : "0");
+
+      const card = document.getElementById("card");
+      const arab = document.getElementById("arab");
+      const rumi = document.getElementById("rumi");
+      const ms = document.getElementById("ms");
+
+      if (on) {
+        card.classList.add("ring-2");
+        card.classList.add("ring-primary/20");
+        arab.style.fontWeight = "700";
+        rumi.style.fontSize = "18px";
+        ms.style.fontSize = "16px";
+        setArabSize(state.arSize + 6);
+      } else {
+        card.classList.remove("ring-2");
+        card.classList.remove("ring-primary/20");
+        arab.style.fontWeight = "700";
+        rumi.style.fontSize = "";
+        ms.style.fontSize = "";
+        setArabSize(state.arSize);
+      }
+    }
+
+    function updateUI() {
+      if (!data) return;
+
+      const total = data.items.length;
+      idx = clamp(idx, 0, total - 1);
+
+      const item = data.items[idx];
+
+      document.getElementById("status").textContent = "";
+      document.getElementById("title").textContent = item.title || "-";
+      document.getElementById("arab").textContent = item.arab || "";
+      document.getElementById("rumi").textContent = item.rumi || "";
+      document.getElementById("ms").textContent = item.ms || "";
+
+      const stepLine = "Langkah " + (idx + 1) + " dari " + total;
+      document.getElementById("stepLine").textContent = stepLine;
+
+      const pct = Math.round(((idx + 1) / total) * 100);
+      document.getElementById("progressBar").style.width = pct + "%";
+
+      if (item.count && Number(item.count) > 1) {
+        document.getElementById("countLine").textContent = "Ulang " + item.count + " kali";
+      } else {
+        document.getElementById("countLine").textContent = "";
+      }
+
+      localStorage.setItem(LS_TAHLIL_STEP, String(idx + 1));
+      saveLastRead();
+    }
+
+    function next() {
+      if (!data) return;
+      idx = Math.min(data.items.length - 1, idx + 1);
+      updateUI();
+    }
+
+    function prev() {
+      if (!data) return;
+      idx = Math.max(0, idx - 1);
+      updateUI();
+    }
+
+    async function loadData() {
+      const status = document.getElementById("status");
+      try {
+        const r = await fetch("data/tahlil.json", { cache: "no-store" });
+        if (!r.ok) throw new Error("Fail data/tahlil.json tak jumpa");
+        data = await r.json();
+
+        const savedStep = Number(localStorage.getItem(LS_TAHLIL_STEP) || "1");
+        idx = clamp(savedStep - 1, 0, (data.items || []).length - 1);
+
+        state.showMs = localStorage.getItem(LS_TAHLIL_SHOW_MS) !== "0";
+        state.arSize = Number(localStorage.getItem(LS_TAHLIL_AR_SIZE)) || 40;
+        state.group = localStorage.getItem(LS_TAHLIL_GROUP) === "1";
+
+        document.getElementById("toggleMs").checked = state.showMs;
+        setShowMs(state.showMs);
+        setArabSize(state.arSize);
+
+        document.getElementById("toggleGroup").checked = state.group;
+        setGroupMode(state.group);
+
+        updateUI();
+      } catch (e) {
+        status.textContent = "Gagal load data. Pastikan data/tahlil.json wujud.";
+      }
+    }
+
+    function wireSheet() {
+      const sheet = document.getElementById("sheet");
+      const sheetBg = document.getElementById("sheetBg");
+
+      const open = () => sheet.classList.remove("hidden");
+      const close = () => sheet.classList.add("hidden");
+
+      document.getElementById("openSettings").addEventListener("click", open);
+      document.getElementById("closeSettings").addEventListener("click", close);
+      sheetBg.addEventListener("click", close);
+
+      document.getElementById("toggleDark").addEventListener("click", () => {
+        const isDark = localStorage.getItem(LS_DARK) === "1";
+        localStorage.setItem(LS_DARK, isDark ? "0" : "1");
+        applyDarkMode();
+      });
+
+      document.getElementById("toggleGroup").addEventListener("change", (e) => {
+        setGroupMode(!!e.target.checked);
+      });
+    }
+
+    function wireControls() {
+      document.getElementById("toggleMs").addEventListener("change", (e) => setShowMs(!!e.target.checked));
+      document.getElementById("btnMinus").addEventListener("click", () => setArabSize(state.arSize - 2));
+      document.getElementById("btnPlus").addEventListener("click", () => setArabSize(state.arSize + 2));
+
+      document.getElementById("prevBtn").addEventListener("click", prev);
+      document.getElementById("nextBtn").addEventListener("click", next);
+      document.getElementById("prevBtnTop").addEventListener("click", prev);
+      document.getElementById("nextBtnTop").addEventListener("click", next);
+
+      document.getElementById("copyBtn").addEventListener("click", async () => {
+        const a = document.getElementById("arab").textContent.trim();
+        const r = document.getElementById("rumi").textContent.trim();
+        const m = document.getElementById("ms").textContent.trim();
+        const text = [a, r, m].filter(Boolean).join("\n\n");
+
+        try {
+          await navigator.clipboard.writeText(text);
+          const btn = document.getElementById("copyBtn");
+          btn.querySelector("span").textContent = "check";
+          setTimeout(() => btn.querySelector("span").textContent = "content_copy", 900);
+        } catch (e) {
+          alert("Tak dapat copy. Cuba guna browser lain atau run melalui server.");
+        }
+      });
+
+      let startX = 0;
+      let startY = 0;
+      let inSwipe = false;
+
+      const card = document.getElementById("card");
+
+      card.addEventListener("touchstart", (e) => {
+        if (!e.touches || !e.touches.length) return;
+        const t = e.touches[0];
+        startX = t.clientX;
+        startY = t.clientY;
+        inSwipe = true;
+      }, { passive: true });
+
+      card.addEventListener("touchend", (e) => {
+        if (!inSwipe) return;
+        inSwipe = false;
+
+        const t = e.changedTouches && e.changedTouches[0];
+        if (!t) return;
+
+        const dx = t.clientX - startX;
+        const dy = t.clientY - startY;
+
+        if (Math.abs(dx) < 40) return;
+        if (Math.abs(dx) < Math.abs(dy)) return;
+
+        if (dx < 0) next();
+        else prev();
+      }, { passive: true });
+
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "ArrowRight") next();
+        if (e.key === "ArrowLeft") prev();
+      });
+    }
+
+    applyDarkMode();
+    wireSheet();
+    wireControls();
+    loadData();
+  </script>
+</body>
+</html>
