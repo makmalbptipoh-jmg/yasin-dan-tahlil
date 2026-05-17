@@ -2,8 +2,13 @@
 <html lang="ms">
 <head>
   <meta charset="utf-8"/>
-  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-  <title>Yasin dan Tahlil - Utama</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
+  <meta name="theme-color" content="#064c39"/>
+  <meta name="apple-mobile-web-app-capable" content="yes"/>
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+  <meta name="apple-mobile-web-app-title" content="Yasin & Tahlil"/>
+  <link rel="manifest" href="manifest.json"/>
+  <title>Yasin dan Tahlil</title>
 
   <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
@@ -16,85 +21,82 @@
         extend: {
           colors: {
             primary: "#064c39",
-            "background-light": "#f6f8f7",
-            "background-dark": "#10221d",
+            "bg-light": "#f5f7f6",
+            "bg-dark": "#0e1f1a",
           },
-          fontFamily: {
-            display: ["Inter", "sans-serif"]
-          },
-          borderRadius: {
-            DEFAULT: "0.5rem",
-            lg: "1rem",
-            xl: "1.5rem",
-            full: "9999px"
-          },
-        },
-      },
+          fontFamily: { sans: ["Inter", "sans-serif"] }
+        }
+      }
     }
   </script>
 
   <style>
-    .material-symbols-outlined{
-      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+    .icon-filled { font-variation-settings: 'FILL' 1, 'wght' 500, 'GRAD' 0, 'opsz' 24; }
+    body { min-height: max(884px, 100dvh); }
+    .pb-nav { padding-bottom: calc(5.5rem + env(safe-area-inset-bottom, 0px)); }
+    .nav-safe { padding-bottom: max(1.5rem, env(safe-area-inset-bottom, 0px)); }
+    .hero { background: linear-gradient(150deg, #064c39 0%, #0b6b52 100%); }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(12px); }
+      to   { opacity: 1; transform: translateY(0); }
     }
-    .active-icon{
-      font-variation-settings: 'FILL' 1, 'wght' 500, 'GRAD' 0, 'opsz' 24;
-    }
-    body{
-      min-height: max(884px, 100dvh);
-    }
+    .a1 { animation: fadeUp 0.35s ease forwards; }
+    .a2 { animation: fadeUp 0.35s 0.08s ease forwards; opacity: 0; }
+    .a3 { animation: fadeUp 0.35s 0.16s ease forwards; opacity: 0; }
   </style>
 </head>
 
-<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 min-h-screen flex flex-col">
+<body class="bg-bg-light dark:bg-bg-dark font-sans text-slate-900 dark:text-slate-100">
 
-  <header class="px-6 pt-10 pb-6 bg-white dark:bg-background-dark/50">
-    <div class="flex justify-between items-start">
+  <!-- HERO HEADER -->
+  <header class="hero px-5 pt-14 pb-7">
+    <div class="flex justify-between items-center a1">
       <div>
-        <h1 class="text-3xl font-bold text-primary tracking-tight">Yasin dan Tahlil</h1>
-        <p class="text-slate-500 dark:text-slate-400 mt-1">Baca dengan tenang</p>
+        <p id="greeting" class="text-white/60 text-xs font-semibold uppercase tracking-wider mb-0.5">Selamat Datang</p>
+        <h1 class="text-white text-2xl font-bold tracking-tight">Yasin dan Tahlil</h1>
       </div>
-      <div class="bg-primary/10 p-2 rounded-full">
-        <span class="material-symbols-outlined text-primary text-2xl">mosque</span>
+      <a href="settings.html" class="w-10 h-10 rounded-full bg-white/15 flex items-center justify-center active:bg-white/25 transition">
+        <span class="material-symbols-outlined text-white">settings</span>
+      </a>
+    </div>
+
+    <!-- Search bar -->
+    <div class="mt-5 a2">
+      <div class="relative">
+        <span class="material-symbols-outlined absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400">search</span>
+        <input id="searchBox"
+          class="w-full bg-white dark:bg-slate-800 rounded-2xl py-3 pl-11 pr-4 text-sm text-slate-800 dark:text-slate-100 placeholder:text-slate-400 outline-none shadow-lg"
+          placeholder="Cari surah atau doa..."
+          type="text"/>
       </div>
     </div>
   </header>
 
-  <div class="px-6 mb-4">
-    <div class="relative group">
-      <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-primary transition-colors">search</span>
-      <input id="searchBox"
-             class="w-full bg-white dark:bg-slate-800 border-none rounded-xl py-4 pl-12 pr-4 shadow-sm focus:ring-2 focus:ring-primary/20 transition-all outline-none"
-             placeholder="Cari Surah atau Doa..."
-             type="text"/>
-    </div>
-  </div>
-
-  <div id="quickResults" class="px-6 mb-6 hidden">
-    <div class="bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-slate-100 dark:border-slate-800 overflow-hidden">
-      <button data-go="yasin" class="w-full flex items-center justify-between px-4 py-4 hover:bg-slate-50 dark:hover:bg-slate-700/40 transition-colors">
+  <!-- SEARCH RESULTS -->
+  <div id="quickResults" class="px-5 mt-2 z-10 relative hidden">
+    <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-xl border border-slate-100 dark:border-slate-700 overflow-hidden">
+      <button data-go="yasin" class="w-full flex items-center justify-between px-4 py-3.5 hover:bg-slate-50 dark:hover:bg-slate-700/40 active:bg-slate-100 transition-colors">
         <div class="flex items-center gap-3">
-          <div class="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
-            <span class="material-symbols-outlined text-primary">auto_stories</span>
+          <div class="w-9 h-9 rounded-xl bg-primary/10 flex items-center justify-center">
+            <span class="material-symbols-outlined text-primary" style="font-size:20px">auto_stories</span>
           </div>
           <div class="text-left">
-            <div class="font-semibold">Yasin</div>
-            <div class="text-xs text-slate-500 dark:text-slate-400">Surah 36</div>
+            <p class="text-sm font-semibold">Surah Yasin</p>
+            <p class="text-xs text-slate-400">Surah ke-36 · 83 ayat</p>
           </div>
         </div>
         <span class="material-symbols-outlined text-slate-300">chevron_right</span>
       </button>
-
       <div class="h-px bg-slate-100 dark:bg-slate-700"></div>
-
-      <button data-go="tahlil" class="w-full flex items-center justify-between px-4 py-4 hover:bg-slate-50 dark:hover:bg-slate-700/40 transition-colors">
+      <button data-go="tahlil" class="w-full flex items-center justify-between px-4 py-3.5 hover:bg-slate-50 dark:hover:bg-slate-700/40 active:bg-slate-100 transition-colors">
         <div class="flex items-center gap-3">
-          <div class="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
-            <span class="material-symbols-outlined text-primary">format_list_numbered</span>
+          <div class="w-9 h-9 rounded-xl bg-primary/10 flex items-center justify-center">
+            <span class="material-symbols-outlined text-primary" style="font-size:20px">mosque</span>
           </div>
           <div class="text-left">
-            <div class="font-semibold">Tahlil</div>
-            <div class="text-xs text-slate-500 dark:text-slate-400">Bacaan ringkas</div>
+            <p class="text-sm font-semibold">Tahlil</p>
+            <p class="text-xs text-slate-400">Zikir ringkas · 12 langkah</p>
           </div>
         </div>
         <span class="material-symbols-outlined text-slate-300">chevron_right</span>
@@ -102,125 +104,102 @@
     </div>
   </div>
 
-  <div class="px-6 mb-8">
-    <div class="relative overflow-hidden bg-primary rounded-xl p-6 shadow-lg text-white">
-      <div class="absolute top-0 right-0 w-32 h-32 opacity-10 pointer-events-none transform translate-x-8 -translate-y-8">
-        <span class="material-symbols-outlined text-9xl">menu_book</span>
+  <!-- MAIN CONTENT -->
+  <main class="px-5 py-5 space-y-5 pb-nav a3">
+
+    <!-- CONTINUE READING -->
+    <div class="relative overflow-hidden bg-primary rounded-2xl p-5 shadow-lg">
+      <div class="absolute top-0 right-0 opacity-[0.06] pointer-events-none translate-x-3 -translate-y-3">
+        <span class="material-symbols-outlined" style="font-size:110px">menu_book</span>
       </div>
-
-      <div class="relative z-10">
-        <div class="flex items-center gap-2 mb-4">
-          <span class="material-symbols-outlined text-sm">history</span>
-          <span class="text-sm font-medium opacity-90 tracking-wide uppercase">Sambung bacaan</span>
-        </div>
-
-        <h3 id="continueTitle" class="text-2xl font-bold mb-6">Mulakan bacaan</h3>
-
+      <div class="relative">
+        <p class="text-white/60 text-[10px] font-bold uppercase tracking-widest mb-2">Sambung Bacaan</p>
+        <h3 id="continueTitle" class="text-white text-xl font-bold mb-4">Mulakan bacaan</h3>
         <button id="continueBtn"
-                class="bg-white text-primary font-bold py-3 px-8 rounded-lg shadow-md hover:bg-slate-100 transition-colors flex items-center gap-2">
-          Teruskan <span class="material-symbols-outlined text-lg">arrow_forward</span>
+          class="inline-flex items-center gap-1.5 bg-white text-primary text-sm font-bold py-2.5 px-5 rounded-xl shadow active:scale-95 transition-transform">
+          Teruskan
+          <span class="material-symbols-outlined" style="font-size:18px">arrow_forward</span>
         </button>
-
-        <div id="continueHint" class="mt-3 text-xs opacity-90"></div>
+        <p id="continueHint" class="mt-2 text-white/50 text-xs"></p>
       </div>
     </div>
-  </div>
 
-  <div class="px-6 mb-8">
-    <div class="grid grid-cols-2 gap-4">
-      <a class="bg-white dark:bg-slate-800 p-5 rounded-xl flex flex-col items-center justify-center gap-3 shadow-sm hover:shadow-md transition-shadow group"
-         href="yasin.html">
-        <div class="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center group-hover:scale-110 transition-transform">
-          <span class="material-symbols-outlined text-primary text-3xl">auto_stories</span>
-        </div>
-        <span class="font-semibold">Yasin</span>
-      </a>
+    <!-- QUICK ACCESS GRID -->
+    <div>
+      <p class="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest mb-3">Bacaan</p>
+      <div class="grid grid-cols-2 gap-3">
 
-      <a class="bg-white dark:bg-slate-800 p-5 rounded-xl flex flex-col items-center justify-center gap-3 shadow-sm hover:shadow-md transition-shadow group"
-         href="tahlil.html">
-        <div class="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center group-hover:scale-110 transition-transform">
-          <span class="material-symbols-outlined text-primary text-3xl">format_list_numbered</span>
-        </div>
-        <span class="font-semibold">Tahlil</span>
-      </a>
+        <a href="yasin.html"
+          class="bg-white dark:bg-slate-800 rounded-2xl p-4 flex flex-col items-center gap-2.5 shadow-sm active:scale-95 transition-transform">
+          <div class="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center">
+            <span class="material-symbols-outlined text-primary" style="font-size:28px">auto_stories</span>
+          </div>
+          <div class="text-center">
+            <p class="font-bold text-sm">Surah Yasin</p>
+            <p class="text-[11px] text-slate-400 mt-0.5">83 ayat</p>
+          </div>
+        </a>
 
-      <a class="bg-white dark:bg-slate-800 p-5 rounded-xl flex flex-col items-center justify-center gap-3 shadow-sm hover:shadow-md transition-shadow group"
-         href="bookmark.html">
-        <div class="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center group-hover:scale-110 transition-transform">
-          <span class="material-symbols-outlined text-primary text-3xl">bookmark</span>
-        </div>
-        <span class="font-semibold">Bookmark</span>
-      </a>
+        <a href="tahlil.html"
+          class="bg-white dark:bg-slate-800 rounded-2xl p-4 flex flex-col items-center gap-2.5 shadow-sm active:scale-95 transition-transform">
+          <div class="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center">
+            <span class="material-symbols-outlined text-primary" style="font-size:28px">mosque</span>
+          </div>
+          <div class="text-center">
+            <p class="font-bold text-sm">Tahlil</p>
+            <p class="text-[11px] text-slate-400 mt-0.5">12 langkah</p>
+          </div>
+        </a>
 
-      <a class="bg-white dark:bg-slate-800 p-5 rounded-xl flex flex-col items-center justify-center gap-3 shadow-sm hover:shadow-md transition-shadow group"
-         href="settings.html">
-        <div class="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center group-hover:scale-110 transition-transform">
-          <span class="material-symbols-outlined text-primary text-3xl">settings</span>
-        </div>
-        <span class="font-semibold">Tetapan</span>
-      </a>
+        <a href="bookmark.html"
+          class="bg-white dark:bg-slate-800 rounded-2xl p-4 flex flex-col items-center gap-2.5 shadow-sm active:scale-95 transition-transform">
+          <div class="w-12 h-12 rounded-xl bg-amber-50 dark:bg-amber-900/20 flex items-center justify-center">
+            <span class="material-symbols-outlined text-amber-600 dark:text-amber-400" style="font-size:28px">bookmark</span>
+          </div>
+          <div class="text-center">
+            <p class="font-bold text-sm">Bookmark</p>
+            <p id="bookmarkCount" class="text-[11px] text-slate-400 mt-0.5">0 disimpan</p>
+          </div>
+        </a>
+
+        <a href="settings.html"
+          class="bg-white dark:bg-slate-800 rounded-2xl p-4 flex flex-col items-center gap-2.5 shadow-sm active:scale-95 transition-transform">
+          <div class="w-12 h-12 rounded-xl bg-slate-100 dark:bg-slate-700 flex items-center justify-center">
+            <span class="material-symbols-outlined text-slate-500 dark:text-slate-400" style="font-size:28px">settings</span>
+          </div>
+          <div class="text-center">
+            <p class="font-bold text-sm">Tetapan</p>
+            <p class="text-[11px] text-slate-400 mt-0.5">Tema & saiz</p>
+          </div>
+        </a>
+
+      </div>
     </div>
-  </div>
 
-  <div class="px-6 mb-24">
-    <div class="flex justify-between items-center mb-4">
-      <h2 class="text-xl font-bold flex items-center gap-2">
-        <span class="material-symbols-outlined text-primary">star</span>
-        Kegemaran
-      </h2>
-      <a class="text-primary text-sm font-semibold" href="bookmark.html">Lihat Semua</a>
-    </div>
+  </main>
 
-    <div class="space-y-3">
-      <a href="yasin.html" class="flex items-center justify-between p-4 bg-white dark:bg-slate-800 rounded-lg shadow-sm hover:shadow-md transition-shadow">
-        <div class="flex items-center gap-4">
-          <div class="w-10 h-10 rounded-lg bg-primary/5 flex items-center justify-center">
-            <span class="material-symbols-outlined text-primary">auto_stories</span>
-          </div>
-          <div>
-            <p class="font-semibold">Surah Yasin</p>
-            <p class="text-xs text-slate-500 dark:text-slate-400">Surah 36</p>
-          </div>
-        </div>
-        <span class="material-symbols-outlined text-slate-300">chevron_right</span>
-      </a>
-
-      <a href="tahlil.html" class="flex items-center justify-between p-4 bg-white dark:bg-slate-800 rounded-lg shadow-sm hover:shadow-md transition-shadow">
-        <div class="flex items-center gap-4">
-          <div class="w-10 h-10 rounded-lg bg-primary/5 flex items-center justify-center">
-            <span class="material-symbols-outlined text-primary">format_list_numbered</span>
-          </div>
-          <div>
-            <p class="font-semibold">Tahlil</p>
-            <p class="text-xs text-slate-500 dark:text-slate-400">Bacaan ringkas</p>
-          </div>
-        </div>
-        <span class="material-symbols-outlined text-slate-300">chevron_right</span>
-      </a>
-    </div>
-  </div>
-
-  <nav class="fixed bottom-0 left-0 right-0 bg-white dark:bg-slate-900 border-t border-slate-100 dark:border-slate-800 px-2 pb-6 pt-2 z-50">
+  <!-- BOTTOM NAV -->
+  <nav class="fixed bottom-0 left-0 right-0 bg-white dark:bg-slate-900 border-t border-slate-100 dark:border-slate-800 px-2 pt-2 nav-safe z-50">
     <div class="flex justify-between items-center max-w-lg mx-auto">
-      <a class="flex flex-col items-center gap-1 flex-1 text-primary" href="index.html">
-        <span class="material-symbols-outlined active-icon">home</span>
-        <span class="text-[10px] font-semibold">Utama</span>
+      <a class="flex flex-col items-center gap-0.5 flex-1 text-primary" href="index.html">
+        <span class="material-symbols-outlined icon-filled">home</span>
+        <span class="text-[10px] font-bold">Utama</span>
       </a>
-      <a class="flex flex-col items-center gap-1 flex-1 text-slate-400" href="yasin.html">
+      <a class="flex flex-col items-center gap-0.5 flex-1 text-slate-400 dark:text-slate-500" href="yasin.html">
         <span class="material-symbols-outlined">auto_stories</span>
-        <span class="text-[10px] font-medium">Yasin</span>
+        <span class="text-[10px]">Yasin</span>
       </a>
-      <a class="flex flex-col items-center gap-1 flex-1 text-slate-400" href="tahlil.html">
-        <span class="material-symbols-outlined">format_list_numbered</span>
-        <span class="text-[10px] font-medium">Tahlil</span>
+      <a class="flex flex-col items-center gap-0.5 flex-1 text-slate-400 dark:text-slate-500" href="tahlil.html">
+        <span class="material-symbols-outlined">mosque</span>
+        <span class="text-[10px]">Tahlil</span>
       </a>
-      <a class="flex flex-col items-center gap-1 flex-1 text-slate-400" href="bookmark.html">
+      <a class="flex flex-col items-center gap-0.5 flex-1 text-slate-400 dark:text-slate-500" href="bookmark.html">
         <span class="material-symbols-outlined">bookmark</span>
-        <span class="text-[10px] font-medium">Bookmark</span>
+        <span class="text-[10px]">Simpan</span>
       </a>
-      <a class="flex flex-col items-center gap-1 flex-1 text-slate-400" href="settings.html">
+      <a class="flex flex-col items-center gap-0.5 flex-1 text-slate-400 dark:text-slate-500" href="settings.html">
         <span class="material-symbols-outlined">settings</span>
-        <span class="text-[10px] font-medium">Tetapan</span>
+        <span class="text-[10px]">Tetapan</span>
       </a>
     </div>
   </nav>
@@ -228,78 +207,67 @@
   <script>
     const LS_DARK = "yt_dark";
     const LS_LAST_READ = "yt_last_read";
+    const LS_BOOKMARKS = "yt_bookmarks";
 
-    function applyDarkMode(){
-      const isDark = localStorage.getItem(LS_DARK) === "1";
-      document.documentElement.classList.toggle("dark", isDark);
-    }
+    (function () {
+      document.documentElement.classList.toggle("dark", localStorage.getItem(LS_DARK) === "1");
+    })();
 
-    function safeParseJSON(s){
-      try { return JSON.parse(s); } catch(e){ return null; }
-    }
+    document.getElementById("greeting").textContent = (() => {
+      const h = new Date().getHours();
+      if (h >= 5 && h < 12) return "Selamat Pagi";
+      if (h >= 12 && h < 15) return "Selamat Tengahari";
+      if (h >= 15 && h < 19) return "Selamat Petang";
+      return "Selamat Malam";
+    })();
 
-    function setContinueCard(){
-      const title = document.getElementById("continueTitle");
-      const hint = document.getElementById("continueHint");
+    (function setContinue() {
       const btn = document.getElementById("continueBtn");
+      try {
+        const d = JSON.parse(localStorage.getItem(LS_LAST_READ) || "null");
+        if (d && d.type === "yasin" && d.ayah) {
+          document.getElementById("continueTitle").textContent = "Yasin — Ayat " + d.ayah;
+          document.getElementById("continueHint").textContent = "Sambung dari tanda bacaan terakhir";
+          btn.onclick = () => { location.href = "yasin.html?ayah=" + d.ayah; };
+          return;
+        }
+        if (d && d.type === "tahlil" && d.step) {
+          document.getElementById("continueTitle").textContent = "Tahlil — Langkah " + d.step;
+          document.getElementById("continueHint").textContent = "Sambung dari langkah terakhir";
+          btn.onclick = () => { location.href = "tahlil.html"; };
+          return;
+        }
+      } catch (e) {}
+      document.getElementById("continueHint").textContent = "Tiada rekod sambung bacaan lagi";
+      btn.onclick = () => { location.href = "yasin.html"; };
+    })();
 
-      const raw = localStorage.getItem(LS_LAST_READ);
-      const d = raw ? safeParseJSON(raw) : null;
+    (function setBookmarkCount() {
+      try {
+        const arr = JSON.parse(localStorage.getItem(LS_BOOKMARKS) || "[]");
+        const n = Array.isArray(arr) ? arr.length : 0;
+        document.getElementById("bookmarkCount").textContent = n + " disimpan";
+      } catch (e) {}
+    })();
 
-      if (d && d.type === "yasin" && d.ayah){
-        const n = Number(d.ayah) || 1;
-        title.textContent = "Yasin, ayat " + n;
-        hint.textContent = "Sambung dari tanda bacaan terakhir.";
-        btn.onclick = () => location.href = "yasin.html?ayah=" + encodeURIComponent(n);
-        return;
-      }
-
-      title.textContent = "Mulakan bacaan";
-      hint.textContent = "Tiada rekod sambung bacaan lagi.";
-      btn.onclick = () => location.href = "yasin.html";
-    }
-
-    function wireSearch(){
+    (function wireSearch() {
       const box = document.getElementById("searchBox");
       const results = document.getElementById("quickResults");
 
-      function showOrHide(){
-        const q = String(box.value || "").trim().toLowerCase();
-        const on = q.length > 0;
-        results.classList.toggle("hidden", !on);
-
-        if (!on) return;
-
-        const showY = q.includes("y") || q.includes("yas") || q.includes("yasin");
-        const showT = q.includes("t") || q.includes("tah") || q.includes("tahlil");
-
-        results.querySelectorAll("button[data-go]").forEach(b => {
-          const k = b.getAttribute("data-go");
-          if (k === "yasin") b.style.display = showY ? "" : "none";
-          if (k === "tahlil") b.style.display = showT ? "" : "none";
-        });
-
-        const anyVisible = Array.from(results.querySelectorAll("button[data-go]")).some(b => b.style.display !== "none");
-        if (!anyVisible){
-          results.classList.add("hidden");
-        }
-      }
-
-      box.addEventListener("input", showOrHide);
-
-      document.querySelectorAll("button[data-go]").forEach(b => {
-        b.addEventListener("click", () => {
-          const k = b.getAttribute("data-go");
-          if (k === "yasin") location.href = "yasin.html";
-          if (k === "tahlil") location.href = "tahlil.html";
-        });
+      box.addEventListener("input", () => {
+        const q = box.value.trim().toLowerCase();
+        if (!q) { results.classList.add("hidden"); return; }
+        const showY = ["yasin", "ya sin", "surah 36", "36", "surah"].some(t => t.includes(q) || q.includes(t));
+        const showT = ["tahlil", "zikir", "doa", "langkah"].some(t => t.includes(q) || q.includes(t));
+        results.querySelector("[data-go='yasin']").style.display = showY ? "" : "none";
+        results.querySelector("[data-go='tahlil']").style.display = showT ? "" : "none";
+        results.classList.toggle("hidden", !showY && !showT);
       });
-    }
 
-    applyDarkMode();
-    setContinueCard();
-    wireSearch();
+      results.querySelectorAll("[data-go]").forEach(b => {
+        b.addEventListener("click", () => { location.href = b.dataset.go + ".html"; });
+      });
+    })();
   </script>
-
 </body>
 </html>
