@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
+  <meta name="theme-color" content="#064c39"/>
+  <meta name="apple-mobile-web-app-capable" content="yes"/>
+  <title>Yasin dan Tahlil — Tetapan</title>
+
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+
+  <script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            primary: "#064c39",
+            "bg-light": "#f5f7f6",
+            "bg-dark": "#0e1f1a",
+          },
+          fontFamily: { sans: ["Inter", "sans-serif"] }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+    .icon-filled { font-variation-settings: 'FILL' 1, 'wght' 500, 'GRAD' 0, 'opsz' 24; }
+    body { min-height: max(884px, 100dvh); }
+    .pb-nav { padding-bottom: calc(6rem + env(safe-area-inset-bottom, 0px)); }
+    .nav-safe { padding-bottom: max(1.5rem, env(safe-area-inset-bottom, 0px)); }
+  </style>
+</head>
+
+<body class="bg-bg-light dark:bg-bg-dark font-sans text-slate-900 dark:text-slate-100">
+
+  <!-- HEADER -->
+  <header class="sticky top-0 z-40 bg-white dark:bg-slate-900 border-b border-slate-100 dark:border-slate-800 px-5 pt-3 pb-3">
+    <div class="flex items-center gap-3">
+      <a href="index.html"
+        class="w-9 h-9 rounded-full bg-primary/10 flex items-center justify-center active:bg-primary/20 transition">
+        <span class="material-symbols-outlined text-primary" style="font-size:20px">arrow_back</span>
+      </a>
+      <h1 class="text-base font-bold text-primary">Tetapan</h1>
+    </div>
+  </header>
+
+  <!-- SETTINGS LIST -->
+  <main class="px-5 py-5 pb-nav space-y-6">
+
+    <!-- PAPARAN -->
+    <section>
+      <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2.5">Paparan</p>
+      <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-700 overflow-hidden divide-y divide-slate-100 dark:divide-slate-700">
+
+        <!-- Dark mode -->
+        <div class="flex items-center justify-between px-4 py-4">
+          <div class="flex items-center gap-3">
+            <div class="w-9 h-9 rounded-xl bg-slate-100 dark:bg-slate-700 flex items-center justify-center">
+              <span class="material-symbols-outlined text-slate-500 dark:text-slate-400" style="font-size:20px">dark_mode</span>
+            </div>
+            <div>
+              <p class="font-semibold text-sm">Tema Gelap</p>
+              <p class="text-xs text-slate-400">Tukar warna latar</p>
+            </div>
+          </div>
+          <button id="darkToggle"
+            class="relative w-12 h-6 rounded-full transition-colors duration-200 focus:outline-none"
+            aria-pressed="false">
+            <span class="absolute inset-0.5 left-0.5 w-5 h-5 bg-white rounded-full shadow transition-transform duration-200"></span>
+          </button>
+        </div>
+
+        <!-- Font size Yasin -->
+        <div class="px-4 py-4">
+          <div class="flex items-center gap-3 mb-3">
+            <div class="w-9 h-9 rounded-xl bg-primary/10 flex items-center justify-center">
+              <span class="material-symbols-outlined text-primary" style="font-size:20px">text_fields</span>
+            </div>
+            <div>
+              <p class="font-semibold text-sm">Saiz Teks — Yasin</p>
+              <p class="text-xs text-slate-400">Teks Arab dalam Yasin</p>
+            </div>
+          </div>
+          <div class="flex items-center gap-3 pl-12">
+            <button id="yasinMinus"
+              class="w-9 h-9 rounded-full bg-slate-100 dark:bg-slate-700 flex items-center justify-center active:bg-slate-200 transition">
+              <span class="material-symbols-outlined" style="font-size:18px">remove</span>
+            </button>
+            <span id="yasinSizeLabel" class="flex-1 text-center font-bold text-primary text-sm">30px</span>
+            <button id="yasinPlus"
+              class="w-9 h-9 rounded-full bg-slate-100 dark:bg-slate-700 flex items-center justify-center active:bg-slate-200 transition">
+              <span class="material-symbols-outlined" style="font-size:18px">add</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Font size Tahlil -->
+        <div class="px-4 py-4">
+          <div class="flex items-center gap-3 mb-3">
+            <div class="w-9 h-9 rounded-xl bg-primary/10 flex items-center justify-center">
+              <span class="material-symbols-outlined text-primary" style="font-size:20px">format_size</span>
+            </div>
+            <div>
+              <p class="font-semibold text-sm">Saiz Teks — Tahlil</p>
+              <p class="text-xs text-slate-400">Teks Arab dalam Tahlil</p>
+            </div>
+          </div>
+          <div class="flex items-center gap-3 pl-12">
+            <button id="tahlilMinus"
+              class="w-9 h-9 rounded-full bg-slate-100 dark:bg-slate-700 flex items-center justify-center active:bg-slate-200 transition">
+              <span class="material-symbols-outlined" style="font-size:18px">remove</span>
+            </button>
+            <span id="tahlilSizeLabel" class="flex-1 text-center font-bold text-primary text-sm">40px</span>
+            <button id="tahlilPlus"
+              class="w-9 h-9 rounded-full bg-slate-100 dark:bg-slate-700 flex items-center justify-center active:bg-slate-200 transition">
+              <span class="material-symbols-outlined" style="font-size:18px">add</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Translation default -->
+        <div class="flex items-center justify-between px-4 py-4">
+          <div class="flex items-center gap-3">
+            <div class="w-9 h-9 rounded-xl bg-primary/10 flex items-center justify-center">
+              <span class="material-symbols-outlined text-primary" style="font-size:20px">translate</span>
+            </div>
+            <div>
+              <p class="font-semibold text-sm">Terjemahan</p>
+              <p class="text-xs text-slate-400">Tunjuk terjemahan Melayu</p>
+            </div>
+          </div>
+          <label class="relative inline-flex items-center cursor-pointer">
+            <input id="msToggle" type="checkbox" class="sr-only peer"/>
+            <div class="w-11 h-6 bg-slate-300 dark:bg-slate-600 rounded-full peer peer-checked:bg-primary
+              after:content-[''] after:absolute after:top-[2px] after:start-[2px]
+              after:bg-white after:rounded-full after:h-5 after:w-5
+              after:transition-all peer-checked:after:translate-x-full">
+            </div>
+          </label>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- DATA -->
+    <section>
+      <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2.5">Data</p>
+      <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-700 overflow-hidden divide-y divide-slate-100 dark:divide-slate-700">
+
+        <!-- Bookmark count -->
+        <div class="flex items-center justify-between px-4 py-4">
+          <div class="flex items-center gap-3">
+            <div class="w-9 h-9 rounded-xl bg-amber-50 dark:bg-amber-900/20 flex items-center justify-center">
+              <span class="material-symbols-outlined text-amber-600" style="font-size:20px">bookmark</span>
+            </div>
+            <div>
+              <p class="font-semibold text-sm">Bookmark</p>
+              <p id="bmCountLabel" class="text-xs text-slate-400">0 ayat disimpan</p>
+            </div>
+          </div>
+          <a href="bookmark.html" class="text-xs font-semibold text-primary bg-primary/10 px-3 py-1.5 rounded-full active:bg-primary/20 transition">
+            Lihat
+          </a>
+        </div>
+
+        <!-- Last read -->
+        <div class="flex items-center justify-between px-4 py-4">
+          <div class="flex items-center gap-3">
+            <div class="w-9 h-9 rounded-xl bg-primary/10 flex items-center justify-center">
+              <span class="material-symbols-outlined text-primary" style="font-size:20px">history</span>
+            </div>
+            <div>
+              <p class="font-semibold text-sm">Sambung Bacaan</p>
+              <p id="lastReadLabel" class="text-xs text-slate-400">Tiada rekod</p>
+            </div>
+          </div>
+          <button id="clearLastRead"
+            class="text-xs font-semibold text-slate-400 bg-slate-100 dark:bg-slate-700 px-3 py-1.5 rounded-full active:scale-95 transition-transform">
+            Padam
+          </button>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- BAHAYA -->
+    <section>
+      <p class="text-[10px] font-bold text-red-400 uppercase tracking-widest mb-2.5">Zon Bahaya</p>
+      <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-sm border border-red-100 dark:border-red-900/30 overflow-hidden">
+        <div class="flex items-center justify-between px-4 py-4">
+          <div class="flex items-center gap-3">
+            <div class="w-9 h-9 rounded-xl bg-red-50 dark:bg-red-900/20 flex items-center justify-center">
+              <span class="material-symbols-outlined text-red-500" style="font-size:20px">delete_forever</span>
+            </div>
+            <div>
+              <p class="font-semibold text-sm text-red-600 dark:text-red-400">Padam Semua Data</p>
+              <p class="text-xs text-slate-400">Bookmark & rekod bacaan akan dipadam</p>
+            </div>
+          </div>
+          <button id="clearAllBtn"
+            class="text-xs font-semibold text-red-500 bg-red-50 dark:bg-red-900/20 px-3 py-1.5 rounded-full active:scale-95 transition-transform">
+            Padam
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- VERSION -->
+    <p class="text-center text-xs text-slate-300 dark:text-slate-700 pb-2">Yasin dan Tahlil v2.0</p>
+
+  </main>
+
+  <!-- BOTTOM NAV -->
+  <nav class="fixed bottom-0 left-0 right-0 bg-white dark:bg-slate-900 border-t border-slate-100 dark:border-slate-800 px-2 pt-2 nav-safe z-50">
+    <div class="flex justify-between items-center max-w-lg mx-auto">
+      <a class="flex flex-col items-center gap-0.5 flex-1 text-slate-400 dark:text-slate-500" href="index.html">
+        <span class="material-symbols-outlined">home</span>
+        <span class="text-[10px]">Utama</span>
+      </a>
+      <a class="flex flex-col items-center gap-0.5 flex-1 text-slate-400 dark:text-slate-500" href="yasin.html">
+        <span class="material-symbols-outlined">auto_stories</span>
+        <span class="text-[10px]">Yasin</span>
+      </a>
+      <a class="flex flex-col items-center gap-0.5 flex-1 text-slate-400 dark:text-slate-500" href="tahlil.html">
+        <span class="material-symbols-outlined">mosque</span>
+        <span class="text-[10px]">Tahlil</span>
+      </a>
+      <a class="flex flex-col items-center gap-0.5 flex-1 text-slate-400 dark:text-slate-500" href="bookmark.html">
+        <span class="material-symbols-outlined">bookmark</span>
+        <span class="text-[10px]">Simpan</span>
+      </a>
+      <a class="flex flex-col items-center gap-0.5 flex-1 text-primary" href="settings.html">
+        <span class="material-symbols-outlined icon-filled">settings</span>
+        <span class="text-[10px] font-bold">Tetapan</span>
+      </a>
+    </div>
+  </nav>
+
+  <script>
+    const LS_DARK      = "yt_dark";
+    const LS_BOOKMARKS = "yt_bookmarks";
+    const LS_LAST_READ = "yt_last_read";
+    const LS_AR_SIZE   = "yt_ar_size";
+    const LS_TAH_SIZE  = "yt_tahlil_ar_size";
+    const LS_SHOW_MS   = "yt_show_ms";
+
+    function clamp(n, a, b) { return Math.max(a, Math.min(b, n)); }
+
+    /* ── DARK MODE ─────────────────────────────────────────── */
+    function applyDarkMode() {
+      const on = localStorage.getItem(LS_DARK) === "1";
+      document.documentElement.classList.toggle("dark", on);
+      const btn = document.getElementById("darkToggle");
+      btn.setAttribute("aria-pressed", String(on));
+      btn.className = on
+        ? "relative w-12 h-6 rounded-full bg-primary transition-colors duration-200 focus:outline-none"
+        : "relative w-12 h-6 rounded-full bg-slate-300 dark:bg-slate-600 transition-colors duration-200 focus:outline-none";
+      const knob = btn.querySelector("span");
+      knob.className = on
+        ? "absolute inset-0.5 w-5 h-5 bg-white rounded-full shadow transition-transform duration-200 translate-x-6"
+        : "absolute inset-0.5 left-0.5 w-5 h-5 bg-white rounded-full shadow transition-transform duration-200 translate-x-0";
+    }
+
+    /* ── FONT SIZE ─────────────────────────────────────────── */
+    function updateYasinSize(delta) {
+      const cur = Number(localStorage.getItem(LS_AR_SIZE)) || 30;
+      const next = clamp(cur + delta, 22, 48);
+      localStorage.setItem(LS_AR_SIZE, String(next));
+      document.getElementById("yasinSizeLabel").textContent = next + "px";
+    }
+
+    function updateTahlilSize(delta) {
+      const cur = Number(localStorage.getItem(LS_TAH_SIZE)) || 40;
+      const next = clamp(cur + delta, 26, 64);
+      localStorage.setItem(LS_TAH_SIZE, String(next));
+      document.getElementById("tahlilSizeLabel").textContent = next + "px";
+    }
+
+    /* ── LAST READ LABEL ───────────────────────────────────── */
+    function refreshLastRead() {
+      try {
+        const d = JSON.parse(localStorage.getItem(LS_LAST_READ) || "null");
+        if (d?.type === "yasin" && d.ayah)
+          return document.getElementById("lastReadLabel").textContent = "Yasin — Ayat " + d.ayah;
+        if (d?.type === "tahlil" && d.step)
+          return document.getElementById("lastReadLabel").textContent = "Tahlil — Langkah " + d.step;
+      } catch {}
+      document.getElementById("lastReadLabel").textContent = "Tiada rekod";
+    }
+
+    /* ── BOOKMARK COUNT ────────────────────────────────────── */
+    function refreshBmCount() {
+      try {
+        const arr = JSON.parse(localStorage.getItem(LS_BOOKMARKS) || "[]");
+        const n = Array.isArray(arr) ? arr.length : 0;
+        document.getElementById("bmCountLabel").textContent = n + " ayat disimpan";
+      } catch {}
+    }
+
+    /* ── INIT ──────────────────────────────────────────────── */
+    applyDarkMode();
+    refreshLastRead();
+    refreshBmCount();
+
+    document.getElementById("yasinSizeLabel").textContent  = (Number(localStorage.getItem(LS_AR_SIZE))  || 30) + "px";
+    document.getElementById("tahlilSizeLabel").textContent = (Number(localStorage.getItem(LS_TAH_SIZE)) || 40) + "px";
+
+    const msOn = localStorage.getItem(LS_SHOW_MS) !== "0";
+    document.getElementById("msToggle").checked = msOn;
+
+    /* ── EVENTS ────────────────────────────────────────────── */
+    document.getElementById("darkToggle").addEventListener("click", () => {
+      localStorage.setItem(LS_DARK, localStorage.getItem(LS_DARK) === "1" ? "0" : "1");
+      applyDarkMode();
+    });
+
+    document.getElementById("yasinMinus").addEventListener("click", () => updateYasinSize(-2));
+    document.getElementById("yasinPlus").addEventListener("click",  () => updateYasinSize(+2));
+    document.getElementById("tahlilMinus").addEventListener("click", () => updateTahlilSize(-2));
+    document.getElementById("tahlilPlus").addEventListener("click",  () => updateTahlilSize(+2));
+
+    document.getElementById("msToggle").addEventListener("change", e => {
+      localStorage.setItem(LS_SHOW_MS, e.target.checked ? "1" : "0");
+      localStorage.setItem("yt_tahlil_show_ms", e.target.checked ? "1" : "0");
+    });
+
+    document.getElementById("clearLastRead").addEventListener("click", () => {
+      localStorage.removeItem(LS_LAST_READ);
+      refreshLastRead();
+    });
+
+    document.getElementById("clearAllBtn").addEventListener("click", () => {
+      if (!confirm("Padam semua bookmark dan rekod bacaan?\n\nTindakan ini tidak boleh dibatalkan.")) return;
+      [LS_BOOKMARKS, LS_LAST_READ].forEach(k => localStorage.removeItem(k));
+      refreshLastRead();
+      refreshBmCount();
+      alert("Semua data telah dipadam.");
+    });
+  </script>
+</body>
+</html>
