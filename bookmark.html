@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
+  <meta name="theme-color" content="#064c39"/>
+  <meta name="apple-mobile-web-app-capable" content="yes"/>
+  <title>Yasin dan Tahlil — Bookmark</title>
+
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+
+  <script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            primary: "#064c39",
+            "bg-light": "#f5f7f6",
+            "bg-dark": "#0e1f1a",
+          },
+          fontFamily: {
+            sans: ["Inter", "sans-serif"],
+            arab: ["Amiri", "Georgia", "serif"],
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+    .icon-filled { font-variation-settings: 'FILL' 1, 'wght' 500, 'GRAD' 0, 'opsz' 24; }
+    body { min-height: max(884px, 100dvh); }
+    .pb-nav { padding-bottom: calc(6rem + env(safe-area-inset-bottom, 0px)); }
+    .nav-safe { padding-bottom: max(1.5rem, env(safe-area-inset-bottom, 0px)); }
+  </style>
+</head>
+
+<body class="bg-bg-light dark:bg-bg-dark font-sans text-slate-900 dark:text-slate-100">
+
+  <!-- HEADER -->
+  <header class="sticky top-0 z-40 bg-white dark:bg-slate-900 border-b border-slate-100 dark:border-slate-800 px-5 pt-3 pb-3">
+    <div class="flex items-center gap-3">
+      <a href="index.html"
+        class="w-9 h-9 rounded-full bg-primary/10 flex items-center justify-center active:bg-primary/20 transition">
+        <span class="material-symbols-outlined text-primary" style="font-size:20px">arrow_back</span>
+      </a>
+      <div class="flex-1">
+        <h1 class="text-base font-bold text-primary">Bookmark</h1>
+        <p id="countLine" class="text-[11px] text-slate-400">0 ayat disimpan</p>
+      </div>
+      <button id="clearAllBtn"
+        class="hidden text-xs font-semibold text-red-500 bg-red-50 dark:bg-red-900/20 px-3 py-1.5 rounded-full active:scale-95 transition-transform">
+        Hapus semua
+      </button>
+    </div>
+  </header>
+
+  <!-- CONTENT -->
+  <main class="px-5 py-5 pb-nav">
+
+    <!-- Loading -->
+    <p id="status" class="text-sm text-slate-400 text-center py-4"></p>
+
+    <!-- Empty state -->
+    <div id="emptyState" class="hidden text-center py-16">
+      <div class="w-20 h-20 rounded-full bg-amber-50 dark:bg-amber-900/20 flex items-center justify-center mx-auto mb-4">
+        <span class="material-symbols-outlined text-amber-400" style="font-size:40px">bookmark_add</span>
+      </div>
+      <h2 class="font-bold text-lg text-slate-700 dark:text-slate-300 mb-1">Tiada bookmark</h2>
+      <p class="text-sm text-slate-400 mb-6">Simpan ayat kegemaran anda semasa membaca Yasin.</p>
+      <a href="yasin.html"
+        class="inline-flex items-center gap-1.5 bg-primary text-white px-5 py-2.5 rounded-xl font-semibold text-sm active:scale-95 transition-transform">
+        <span class="material-symbols-outlined" style="font-size:18px">auto_stories</span>
+        Buka Yasin
+      </a>
+    </div>
+
+    <!-- Bookmark list -->
+    <div id="list" class="space-y-3"></div>
+
+  </main>
+
+  <!-- BOTTOM NAV -->
+  <nav class="fixed bottom-0 left-0 right-0 bg-white dark:bg-slate-900 border-t border-slate-100 dark:border-slate-800 px-2 pt-2 nav-safe z-50">
+    <div class="flex justify-between items-center max-w-lg mx-auto">
+      <a class="flex flex-col items-center gap-0.5 flex-1 text-slate-400 dark:text-slate-500" href="index.html">
+        <span class="material-symbols-outlined">home</span>
+        <span class="text-[10px]">Utama</span>
+      </a>
+      <a class="flex flex-col items-center gap-0.5 flex-1 text-slate-400 dark:text-slate-500" href="yasin.html">
+        <span class="material-symbols-outlined">auto_stories</span>
+        <span class="text-[10px]">Yasin</span>
+      </a>
+      <a class="flex flex-col items-center gap-0.5 flex-1 text-slate-400 dark:text-slate-500" href="tahlil.html">
+        <span class="material-symbols-outlined">mosque</span>
+        <span class="text-[10px]">Tahlil</span>
+      </a>
+      <a class="flex flex-col items-center gap-0.5 flex-1 text-amber-600" href="bookmark.html">
+        <span class="material-symbols-outlined icon-filled">bookmark</span>
+        <span class="text-[10px] font-bold">Simpan</span>
+      </a>
+      <a class="flex flex-col items-center gap-0.5 flex-1 text-slate-400 dark:text-slate-500" href="settings.html">
+        <span class="material-symbols-outlined">settings</span>
+        <span class="text-[10px]">Tetapan</span>
+      </a>
+    </div>
+  </nav>
+
+  <script>
+    const LS_DARK      = "yt_dark";
+    const LS_BOOKMARKS = "yt_bookmarks";
+
+    (function () {
+      document.documentElement.classList.toggle("dark", localStorage.getItem(LS_DARK) === "1");
+    })();
+
+    function getBookmarks() {
+      try { const a = JSON.parse(localStorage.getItem(LS_BOOKMARKS) || "[]"); return Array.isArray(a) ? a : []; } catch { return []; }
+    }
+    function saveBookmarks(arr) { localStorage.setItem(LS_BOOKMARKS, JSON.stringify(arr)); }
+
+    function removeBookmark(key) {
+      const arr = getBookmarks().filter(k => k !== key);
+      saveBookmarks(arr);
+      render(allData);
+    }
+
+    let allData = null;
+
+    function render(yasinData) {
+      const bookmarks = getBookmarks();
+      const yasinBms  = bookmarks.filter(k => k.startsWith("yasin:")).map(k => Number(k.replace("yasin:", "")));
+
+      document.getElementById("countLine").textContent = bookmarks.length + " ayat disimpan";
+
+      const list      = document.getElementById("list");
+      const empty     = document.getElementById("emptyState");
+      const clearBtn  = document.getElementById("clearAllBtn");
+
+      list.innerHTML = "";
+
+      if (!yasinBms.length) {
+        empty.classList.remove("hidden");
+        clearBtn.classList.add("hidden");
+        return;
+      }
+
+      empty.classList.add("hidden");
+      clearBtn.classList.remove("hidden");
+
+      yasinBms.sort((a, b) => a - b).forEach(ayah => {
+        const ayahData = yasinData?.ayahs?.find(a => Number(a.aya) === ayah);
+        const arText   = ayahData ? (ayahData.ar || "") : "";
+        const msText   = ayahData ? (ayahData.ms || "") : "";
+
+        const card = document.createElement("div");
+        card.className = "bg-white dark:bg-slate-800 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-700 overflow-hidden";
+        card.innerHTML = `
+          <div class="px-4 py-3 border-b border-slate-100 dark:border-slate-700 flex items-center justify-between">
+            <div class="flex items-center gap-2.5">
+              <div class="w-7 h-7 rounded-full bg-primary flex items-center justify-center shrink-0">
+                <span class="text-white text-xs font-bold">${ayah}</span>
+              </div>
+              <span class="text-sm font-semibold">Ayat ${ayah}</span>
+            </div>
+            <div class="flex items-center gap-1.5">
+              <a href="yasin.html?ayah=${ayah}"
+                class="flex items-center gap-1 text-[11px] font-semibold text-primary bg-primary/10 px-2.5 py-1.5 rounded-full active:bg-primary/20 transition">
+                <span class="material-symbols-outlined" style="font-size:14px">open_in_new</span>
+                Buka
+              </a>
+              <button data-remove="yasin:${ayah}"
+                class="w-8 h-8 rounded-full flex items-center justify-center text-red-400 active:bg-red-50 dark:active:bg-red-900/20 transition">
+                <span class="material-symbols-outlined" style="font-size:18px">delete</span>
+              </button>
+            </div>
+          </div>
+          ${arText ? `
+          <div class="px-4 py-4 text-right">
+            <p class="font-arab text-primary dark:text-emerald-200 leading-loose text-xl" dir="rtl">${arText}</p>
+          </div>` : ""}
+          ${msText ? `
+          <div class="px-4 pb-4">
+            <p class="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">${msText}</p>
+          </div>` : ""}
+        `;
+
+        card.querySelector("[data-remove]").addEventListener("click", e => {
+          const key = e.currentTarget.dataset.remove;
+          if (confirm("Padam bookmark ayat " + ayah + "?")) removeBookmark(key);
+        });
+
+        list.appendChild(card);
+      });
+    }
+
+    async function init() {
+      const status = document.getElementById("status");
+      status.textContent = "Memuatkan data…";
+      try {
+        const r = await fetch("data/yasin.json");
+        if (r.ok) allData = await r.json();
+      } catch {}
+      status.textContent = "";
+      render(allData);
+    }
+
+    document.getElementById("clearAllBtn").addEventListener("click", () => {
+      if (confirm("Padam semua bookmark?")) {
+        saveBookmarks([]);
+        render(allData);
+      }
+    });
+
+    init();
+  </script>
+</body>
+</html>

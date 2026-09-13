@@ -1,0 +1,13 @@
+{
+  "name": "Yasin dan Tahlil",
+  "short_name": "Yasin",
+  "description": "Baca Surah Yasin dan Tahlil dengan tenang dan khusyuk",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#064c39",
+  "theme_color": "#064c39",
+  "orientation": "portrait-primary",
+  "lang": "ms",
+  "categories": ["religion", "education"],
+  "icons": []
+}

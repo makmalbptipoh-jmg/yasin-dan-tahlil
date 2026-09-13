@@ -1,0 +1,104 @@
+{
+  "meta": {
+    "title": "Tahlil Ringkas",
+    "steps": 12
+  },
+  "items": [
+    {
+      "id": 1,
+      "title": "Istighfar",
+      "arab": "أَسْتَغْفِرُ ٱللّٰهَ ٱلْعَظِيمَ وَأَتُوبُ إِلَيْهِ",
+      "rumi": "Astaghfirullahal ‘azim wa atubu ilaih",
+      "ms": "Aku mohon ampun kepada Allah Yang Maha Agung, dan aku bertaubat kepada-Nya.",
+      "count": 3
+    },
+    {
+      "id": 2,
+      "title": "Selawat",
+      "arab": "ٱللَّهُمَّ صَلِّ عَلَى مُحَمَّدٍ وَعَلَى آلِ مُحَمَّدٍ",
+      "rumi": "Allahumma salli ‘ala Muhammad wa ‘ala ali Muhammad",
+      "ms": "Ya Allah, kurniakan selawat kepada Nabi Muhammad dan keluarga Baginda.",
+      "count": 1
+    },
+    {
+      "id": 3,
+      "title": "Tahlil",
+      "arab": "لَا إِلٰهَ إِلَّا ٱللّٰهُ",
+      "rumi": "Laa ilaha illallah",
+      "ms": "Tiada Tuhan yang berhak disembah melainkan Allah.",
+      "count": 33
+    },
+    {
+      "id": 4,
+      "title": "Tasbih",
+      "arab": "سُبْحَانَ ٱللّٰهِ",
+      "rumi": "Subhanallah",
+      "ms": "Maha Suci Allah.",
+      "count": 33
+    },
+    {
+      "id": 5,
+      "title": "Tahmid",
+      "arab": "ٱلْحَمْدُ لِلّٰهِ",
+      "rumi": "Alhamdulillah",
+      "ms": "Segala puji bagi Allah.",
+      "count": 33
+    },
+    {
+      "id": 6,
+      "title": "Takbir",
+      "arab": "ٱللّٰهُ أَكْبَرُ",
+      "rumi": "Allahu akbar",
+      "ms": "Allah Maha Besar.",
+      "count": 33
+    },
+    {
+      "id": 7,
+      "title": "Hauqalah",
+      "arab": "لَا حَوْلَ وَلَا قُوَّةَ إِلَّا بِٱللّٰهِ",
+      "rumi": "Laa hawla wa laa quwwata illa billah",
+      "ms": "Tiada daya dan kekuatan melainkan dengan pertolongan Allah.",
+      "count": 1
+    },
+    {
+      "id": 8,
+      "title": "Zikir Penutup 100",
+      "arab": "لَا إِلٰهَ إِلَّا ٱللّٰهُ وَحْدَهُ لَا شَرِيكَ لَهُ، لَهُ ٱلْمُلْكُ وَلَهُ ٱلْحَمْدُ، وَهُوَ عَلَىٰ كُلِّ شَيْءٍ قَدِيرٌ",
+      "rumi": "Laa ilaha illallahu wahdahu laa sharika lah, lahul-mulku wa lahul-hamd, wa huwa ‘ala kulli shay’in qadir",
+      "ms": "Tiada Tuhan melainkan Allah Yang Esa, tiada sekutu bagi-Nya. Milik-Nya kerajaan dan pujian. Dia Maha Berkuasa atas tiap sesuatu.",
+      "count": 1
+    },
+    {
+      "id": 9,
+      "title": "Doa Kebaikan Dunia Akhirat",
+      "arab": "رَبَّنَا آتِنَا فِي الدُّنْيَا حَسَنَةً وَفِي الْآخِرَةِ حَسَنَةً وَقِنَا عَذَابَ النَّارِ",
+      "rumi": "Rabbana atina fid-dunya hasanah wa fil-akhirati hasanah wa qina ‘azaban-nar",
+      "ms": "Ya Tuhan kami, kurniakan kebaikan di dunia dan kebaikan di akhirat, dan lindungi kami dari azab neraka.",
+      "count": 1
+    },
+    {
+      "id": 10,
+      "title": "Doa Untuk Ibu Bapa",
+      "arab": "رَبِّ ٱغْفِرْ لِي وَلِوَالِدَيَّ وَٱرْحَمْهُمَا كَمَا رَبَّيَانِي صَغِيرًا",
+      "rumi": "Rabbighfir li wa liwalidayya warhamhuma kama rabbayani saghira",
+      "ms": "Ya Tuhan, ampunilah aku dan ibu bapaku. Rahmatilah mereka sebagaimana mereka membesarkanku ketika kecil.",
+      "count": 1
+    },
+    {
+      "id": 11,
+      "title": "Doa Keampunan",
+      "arab": "ٱللَّهُمَّ ٱغْفِرْ لَنَا وَلِوَالِدِينَا وَلِلْمُؤْمِنِينَ وَٱلْمُؤْمِنَاتِ",
+      "rumi": "Allahummaghfir lana wa liwalidina wa lilmu’minina walmu’minat",
+      "ms": "Ya Allah, ampunilah kami, ibu bapa kami, dan seluruh orang beriman lelaki dan perempuan.",
+      "count": 1
+    },
+    {
+      "id": 12,
+      "title": "Penutup",
+      "arab": "سُبْحَانَ رَبِّكَ رَبِّ ٱلْعِزَّةِ عَمَّا يَصِفُونَ، وَسَلَامٌ عَلَى ٱلْمُرْسَلِينَ، وَٱلْحَمْدُ لِلّٰهِ رَبِّ ٱلْعَالَمِينَ",
+      "rumi": "Subhana rabbika rabbil ‘izzati ‘amma yasifun, wa salamun ‘alal-mursalin, walhamdulillahi rabbil ‘alamin",
+      "ms": "Maha Suci Tuhanmu, Tuhan yang memiliki kemuliaan, dari apa yang mereka sifatkan. Sejahtera atas para rasul. Segala puji bagi Allah Tuhan sekalian alam.",
+      "count": 1
+    }
+  ]
+}
